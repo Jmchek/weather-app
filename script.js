@@ -1,15 +1,33 @@
 
 
 async function getWeather(location, tempScale) {
+    const weatherInfoTagsGrbbr = document.querySelector(".weatherInfoTags");
+    const tempContainerGrbbr = document.querySelector(".tempContainer");
+    const searchWeatherGrbbr = document.querySelector("#weatherSearch");
+    const tempScaleChckbxGrbbr = document.querySelector(".tempScaleChckbx");
+    const switchContainerGrbbr = document.querySelector(".switchContainer");
+
+    switchContainerGrbbr.classList.remove("hidden");
+
+    tempScaleChckbxGrbbr.addEventListener("click", y => {
+        if(tempScaleChckbxGrbbr.checked){
+            getTemperature(location, "c").then(x => tempContainerGrbbr.children[0].innerText = `Temperature: ` + x);
+        } else {
+            getTemperature(location, "f").then(y => tempContainerGrbbr.children[0].innerText = `Temperature: ` + y);
+        }
+    });
 
     createWeatherObj(location, tempScale).then( x => {
-        console.log(`Location: ${x.location}`),
-        console.log(`Country: ${x.country}`),
-        console.log(`Region: ${x.region}`),
-        console.log(`Temperature: ` + x.temperature),
-        console.log(`Precipitation: ${x.precipitation}%`),
-        console.log(`Humidity: ${x.humidity}%`),
-        console.log(`Wind speed: ${x.windSpeed}`)
+        weatherInfoTagsGrbbr.children[0].innerText = `Location: ${x.location}`,
+        weatherInfoTagsGrbbr.children[1].innerText = `Country: ${x.country}`,
+        weatherInfoTagsGrbbr.children[2].innerText = `Region: ${x.region}`,
+        tempContainerGrbbr.children[0].innerText = `Temperature: ` + x.temperature,
+        weatherInfoTagsGrbbr.children[4].innerText = `Precipitation: ${x.precipitation}`,
+        weatherInfoTagsGrbbr.children[5].innerText = `Humidity: ${x.humidity}`,
+        weatherInfoTagsGrbbr.children[6].innerText = `Wind speed: ${x.windSpeed}`
+    }).catch(err => {
+        alert("Cannot find that location, please try again.");
+        searchWeatherGrbbr.value = "";
     });
 }
 
