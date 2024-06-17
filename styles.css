@@ -27,7 +27,7 @@ p {
     height: 50vh;
     max-width: 500px;
 
-    grid-template-rows: 50px 1fr 1fr;
+    grid-template-rows: 30px 50px 1fr 1fr;
 }
 
 .searchContainer {
@@ -47,6 +47,11 @@ p {
     display: grid;
     
     grid-template-columns: 200px 1fr;
+}
+
+#weatherGif {
+  max-width: 300px;
+  max-height: 300px;
 }
 
 /* Temperature Scale Switch Styling */

@@ -6,6 +6,7 @@ async function getWeather(location, tempScale) {
     const searchWeatherGrbbr = document.querySelector("#weatherSearch");
     const tempScaleChckbxGrbbr = document.querySelector(".tempScaleChckbx");
     const switchContainerGrbbr = document.querySelector(".switchContainer");
+    const imgTagGrabberForGif = document.querySelector("#weatherGif");
 
     switchContainerGrbbr.classList.remove("hidden");
 
@@ -28,6 +29,10 @@ async function getWeather(location, tempScale) {
     }).catch(err => {
         alert("Cannot find that location, please try again.");
         searchWeatherGrbbr.value = "";
+    });
+
+    getWeatherGif(location).then(x => {
+        imgTagGrabberForGif.src = x;
     });
 }
 
@@ -78,6 +83,19 @@ async function getLocationName(location){
     const locationData = await response.json();
 
     return locationData.location.name;
+}
+
+async function getWeatherGif(location){
+    let description;
+
+    const responseWeather = await fetch(`https://api.weatherapi.com/v1/current.json?key=405b9413895a483db38183130242905&q=${location}`, {mode: 'cors'});
+    const weatherData = await responseWeather.json();
+    description = weatherData.current.condition.text;
+
+    const responseGiphy = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=pvFQgo3TYFrmBdTFFPd2H9z2kFyTQeC5&s=${description}`, {mode: 'cors'});
+    const giphData = await responseGiphy.json();
+
+    return giphData.data.images.original.url;
 }
 
 async function createWeatherObj(location, tempScale){
